@@ -13,12 +13,16 @@ import java.net.URISyntaxException;
 public class Main {
 
     public static YamlData data;
+    public static YamlData releases;
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         Console.Log("Prog-OS");
 
         Resource.loadFile("data.yml");
+        Resource.loadFile("releases.yml");
+
         data = new YamlData("options/data.yml");
+        releases = new YamlData("options/releases.yml");
 
         if((boolean) data.get("ShowData")){
             Console.Log("VERSION: " + data.get("VER"));
@@ -29,6 +33,7 @@ public class Main {
         addCommand(new test());
         addCommand(new Help());
         addCommand(new Data());
+        addCommand(new Get());
 
         Console.Log("RUN SUCCESS");
 
