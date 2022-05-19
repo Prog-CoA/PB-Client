@@ -1,6 +1,5 @@
 package org.progcoa.os.Lib.Files;
 
-import org.progcoa.os.Lib.Console;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -53,7 +52,6 @@ public class YamlData {
 
     public void Save(){
         String yamlData = yaml.dumpAs(map, Tag.YAML, DumperOptions.FlowStyle.BLOCK);
-        Console.WriteLine(yamlData);
 
         FileWriter filewriter = null;
         try {

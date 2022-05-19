@@ -1,26 +1,50 @@
 package org.progcoa.os;
 
+import org.progcoa.os.Commands.Frame.CommandInterface;
 import org.progcoa.os.Commands.Frame.CommandManager;
-import org.progcoa.os.Commands.test;
+import org.progcoa.os.Commands.*;
 import org.progcoa.os.Lib.Console;
+import org.progcoa.os.Lib.Files.Resource;
+import org.progcoa.os.Lib.Files.YamlData;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static YamlData data;
+
+    public static void main(String[] args) throws IOException, URISyntaxException {
         Console.Log("Prog-OS");
 
+        Resource.loadFile("data.yml");
+        data = new YamlData("options/data.yml");
+
+        if((boolean) data.get("ShowData")){
+            Console.Log("VERSION: " + data.get("VER"));
+            Console.Log("ROOT-USER: " + data.get("ROOT-USER"));
+        }
+
         //import Commands
-        CommandManager.setCommand(new test());
+        addCommand(new test());
+        addCommand(new Help());
+        addCommand(new Data());
+
+        Console.Log("RUN SUCCESS");
 
         String input = Console.ReadLine();
 
         while (!input.equals("/stop")) {
-            CommandManager.onRun(input);
+            if(!"".equals(input)) CommandManager.onRun(input);
 
             input = Console.ReadLine();
         }
 
         Console.Log("saving data");
         Console.Log("Shutdown...");
+    }
+
+    private static void addCommand(CommandInterface cmd){
+        CommandManager.setCommand(cmd);
     }
 }
